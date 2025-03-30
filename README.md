@@ -1,2 +1,5 @@
-# flask-ml-azure-services
-Flask ML app deployed with azure pipeline.
+# flask-ml-service
+A sample Flask application to showcase the Azure Pipeline.
+
+## Environment
+Python 3.7
