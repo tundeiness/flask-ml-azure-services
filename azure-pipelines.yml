@@ -30,7 +30,7 @@ stages:
   jobs:
   - job: BuildJob
     pool:
-      name: 'Default'
+      name: 'macagent'
       vmImage: $(vmImageName)
     steps:
     - script: echo hello from self hosted agent!
