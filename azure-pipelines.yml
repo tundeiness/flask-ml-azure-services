@@ -13,9 +13,6 @@ variables:
   # Web app name
   webAppName: 'myAppServ001'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
   # Environment name
   environmentName: 'myAppServ001'
 
@@ -31,25 +28,15 @@ stages:
   - job: BuildJob
     pool:
       name: 'macagent'
-      vmImage: $(vmImageName)
     steps:
     - script: |
         python3 --version
-        pip3 install -r requirements.txt
-      displayName: 'Run with system Python'
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(pythonVersion)'
-      displayName: 'Use Python $(pythonVersion)'
-
-    - script: |
-        python -m venv antenv
+        python3 -m venv antenv
         source antenv/bin/activate
         python -m pip install --upgrade pip
-        pip install setup
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
-      displayName: "Install requirements"
+      displayName: "Setup Python and Install requirements"
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -71,18 +58,16 @@ stages:
   jobs:
   - deployment: DeploymentJob
     pool:
-      vmImage: $(vmImageName)
+      name: 'macagent'
     environment: $(environmentName)
     strategy:
       runOnce:
         deploy:
           steps:
-
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '$(pythonVersion)'
-            displayName: 'Use Python version'
-
+          - download: current
+            artifact: drop
+            displayName: 'Download build artifacts'
+            
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : myAppServ001'
             inputs:
