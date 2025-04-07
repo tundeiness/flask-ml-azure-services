@@ -30,8 +30,11 @@ stages:
   jobs:
   - job: BuildJob
     pool:
+      name: 'Default'
       vmImage: $(vmImageName)
     steps:
+    - script: echo hello from self hosted agent!
+      displayName: 'Run Flask test'
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
