@@ -11,10 +11,10 @@ variables:
   azureServiceConnectionId: 'c09d4112-c82d-4639-9519-00ec4806fc51'
 
   # Web app name
-  webAppName: 'myAppServ001'
+  webAppName: 'azWebApp002'
 
   # Environment name
-  environmentName: 'myAppServ001'
+  environmentName: 'azWebApp002'
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -70,7 +70,7 @@ stages:
             displayName: 'Download build artifacts'
             
           - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : myAppServ001'
+            displayName: 'Deploy Azure Web App : azWebApp002'
             inputs:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
